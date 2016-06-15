@@ -1,1 +1,16 @@
-{{1+1}}
+<div class="container text-center">
+	<h1>Minesweeper!</h1>
+	<div class="panel panel-default">
+		<div class="panel-body">
+
+			<button ng-click="ctrl.startGame(0)" class="btn btn-success">start new (easy) game</button>
+
+			<div class="grid">
+				<div class="clearfix" ng-repeat="row in ctrl.game.grid track by $index">
+					<div class="cell" ng-class="{'hasmine': cell.hasMine}" ng-repeat="cell in row track by $index"></div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</div>

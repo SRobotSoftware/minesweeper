@@ -1,3 +1,20 @@
 body {
 	margin: 2em;
+	background-color: #eee;
 }
+
+.grid {
+	margin: 1em;
+}
+
+.cell {
+	display: inline-block;
+	background-color: #aaa;
+	width: 2em;
+	height: 2em;
+	border: .125em solid #555;
+	}
+
+.hasmine {
+	background-color: red;
+	}
