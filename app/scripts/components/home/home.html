@@ -1,12 +1,19 @@
-<div class="container text-center">
+<div class="container-fluid text-center">
 	<h1>MineSweeper!</h1>
 	<div class="panel panel-default">
 		<div class="panel-body noselect">
 
 			<h1 ng-show="ctrl.game.hasWon">YOU WIN</h1>
 			<h1 ng-show="ctrl.game.hasLost">YOU LOSE</h1>
+			<h1 ng-show="ctrl.game.isRunning">Minesweeper</h1>
 
-			<button ng-hide="ctrl.game.isRunning" ng-click="ctrl.newGame(0)" class="btn btn-success">start new (easy) game</button>
+			<div class="container-fluid">
+				<span class="h2">{{ctrl.game.flags || 0}}/{{ctrl.game.difficulty*9}}</span>
+				<button ng-hide="ctrl.game.isRunning" ng-click="ctrl.newGame(0)" class="btn btn-success">start new (easy) game</button>
+				<button ng-show="ctrl.game.isRunning" ng-click="ctrl.newGame(ctrl.game.difficulty-1)" class="btn btn-warning">Restart Game</button>
+				<span ng-hide="ctrl.game.isRunning" class="h2">Time: {{ctrl.game.duration}} seconds</span>
+			</div>
+
 
 			<div class="grid" oncontextmenu="return false">
 				<div class="clearfix" ng-repeat="row in ctrl.game.grid track by $index">

@@ -3,7 +3,7 @@
 		.module('myApp')
 		.service('GameService', GameService)
 
-	function GameService() {
+	function GameService($interval) {
 
 		let vm = this
 		let game = {
@@ -13,7 +13,9 @@
 			difficulty: false,
 			started: Date.now(),
 			finished: Date.now(),
-			grid: []
+			grid: [],
+			flags: 0,
+			duration: null
 		}
 		vm.getGame = getGame
 		vm.sweep = sweep
@@ -65,26 +67,38 @@
 		}
 
 		function checkWin() {
-			let tally = 0
-			let flags = 0
-			game.grid.forEach((row) => {
-				row.forEach((cell) => {
-					if (cell.hasFlag) flags++
-					if (cell.hasFlag && cell.hasMine) tally++
-				})
-			})
-			if (tally === game.difficulty * 9 && flags === tally) {
-				game.hasWon = true
+			if (game.hasLost) {
+				revealAll()
 				game.isRunning = false
 				game.finished = Date.now()
+				game.duration = Math.round((game.finished - game.started)/1000)
 			}
-			if (game.hasLost) {
+			if (game.isRunning) {
+				let tally = 0
+				let flags = 0
 				game.grid.forEach((row) => {
 					row.forEach((cell) => {
-						cell.isRevealed = true
+						if (cell.hasFlag) flags++
+						if (cell.hasFlag && cell.hasMine) tally++
 					})
 				})
+				game.flags = flags
+				if (tally === game.difficulty * 9 && flags === tally) {
+					revealAll()
+					game.hasWon = true
+					game.isRunning = false
+					game.finished = Date.now()
+					game.duration = Math.round((game.finished - game.started)/1000)
+				}
 			}
+		}
+
+		function revealAll() {
+			game.grid.forEach((row) => {
+				row.forEach((cell) => {
+					cell.isRevealed = true
+				})
+			})
 		}
 
 		function getGame(difficulty) {
@@ -127,7 +141,7 @@
 			let out = { x: null, y: null }
 			out.x = chance.integer({ min: 0, max: max })
 			out.y = chance.integer({ min: 0, max: max })
-			return out;
+			return out
 		}
 
 		function isObjEq(a, b) {
