@@ -11,13 +11,11 @@
 		vm.game = GameService.getGame(0)
 		vm.sweep = GameService.sweep
 		vm.handleClick = handleClick
-		vm.difficulty = null
 
 		// Functions
 
 		function newGame(difficulty) {
 			vm.game = GameService.getGame(difficulty)
-			vm.difficulty = difficulty
 		}
 
 		function handleClick(e, cell) {
