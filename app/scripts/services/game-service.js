@@ -6,7 +6,8 @@
 	function GameService($interval) {
 
 		let vm = this
-		let game = {
+		let game = {}
+		let gameBlank = {
 			isRunning: false,
 			hasWon: false,
 			hasLost: false,
@@ -104,6 +105,7 @@
 		function getGame(difficulty) {
 			if (difficulty > 2 || difficulty < 0) difficulty = 0
 			difficulty += 1
+			game = Object.assign({}, gameBlank)
 			game.grid = createGrid(difficulty * 10)
 			placeMines(game.grid, difficulty * 9)
 			calcMines(game.grid)
