@@ -104,15 +104,15 @@
 
 		function getGame(difficulty) {
 			switch (difficulty) {
-			case 'hard':
-				difficulty = 0.5
-				break
-			case 'medium':
-				difficulty = 0.25
-				break
-			default:
-				difficulty = 0
-				break
+				case 'hard':
+					difficulty = 0.5
+					break
+				case 'medium':
+					difficulty = 0.25
+					break
+				default:
+					difficulty = 0
+					break
 			}
 			game = Object.assign({}, gameBlank)
 			game.difficulty = Math.floor((difficulty + 1) * 10)

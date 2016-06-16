@@ -21,5 +21,9 @@
             "error",
             "never"
         ]
+    },
+    "globals": {
+        "angular": false,
+        "chance": false
     }
 }
