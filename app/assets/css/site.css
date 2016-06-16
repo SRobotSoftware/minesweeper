@@ -10,7 +10,25 @@ body {
   background-color: #aaa;
   width: 2em;
   height: 2em;
-  border: .125em solid #555; }
+  border: .125em solid #555;
+  color: #aaa; }
 
 .hasmine {
-  background-color: red; }
+  background-color: red !important;
+  color: red !important; }
+
+.hasflag {
+  background-color: green !important;
+  color: green !important; }
+
+.revealed {
+  color: black;
+  background-color: #ccc; }
+
+.noselect {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none; }

@@ -3,11 +3,14 @@
 	<div class="panel panel-default">
 		<div class="panel-body">
 
-			<button ng-click="ctrl.newGame(0)" class="btn btn-success">start new (easy) game</button>
+			<h1 ng-show="ctrl.game.hasWon">YOU WIN</h1>
+			<h1 ng-show="ctrl.game.hasLost">YOU LOSE</h1>
 
-			<div class="grid">
+			<button ng-hide="ctrl.game.isRunning" ng-click="ctrl.newGame(0)" class="btn btn-success">start new (easy) game</button>
+
+			<div class="grid noselect">
 				<div class="clearfix" ng-repeat="row in ctrl.game.grid track by $index">
-					<div class="cell" ng-class="{'hasmine': cell.hasMine}" ng-repeat="cell in row track by $index">{{cell.touching}}</div>
+					<div class="cell" ng-mousedown="ctrl.handleClick($event, cell)" oncontextmenu="return false" ng-class="{'hasmine': (cell.hasMine && ctrl.game.hasLost), 'revealed': cell.isRevealed, 'hasflag': cell.hasFlag}" ng-repeat="cell in row track by $index">{{cell.touching}}</div>
 				</div>
 			</div>
 
