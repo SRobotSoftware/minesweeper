@@ -20,7 +20,7 @@
 		vm.flag = flag
 
 		function sweep(cell) {
-			if (!game.isRunning) return
+			if (!game.isRunning || cell.hasFlag) return
 			cell.isRevealed = true
 			checkEmpty(cell)
 			if (cell.hasMine) {
