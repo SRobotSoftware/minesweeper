@@ -8,9 +8,11 @@
 			<h1 ng-show="ctrl.game.isRunning">Minesweeper</h1>
 
 			<div class="container-fluid">
-				<span class="h2">{{ctrl.game.flags || 0}}/{{ctrl.game.difficulty*9}}</span>
-				<button ng-hide="ctrl.game.isRunning" ng-click="ctrl.newGame(0)" class="btn btn-success">start new (easy) game</button>
-				<button ng-show="ctrl.game.isRunning" ng-click="ctrl.newGame(ctrl.game.difficulty-1)" class="btn btn-warning">Restart Game</button>
+				<span class="h2">{{ctrl.game.flags || 0}}/{{ctrl.game.difficulty*1.5 | number:0}}</span>
+				<button ng-hide="ctrl.game.isRunning" ng-click="ctrl.newGame('easy')" class="btn btn-success">start new (easy) game</button>
+				<button ng-hide="ctrl.game.isRunning" ng-click="ctrl.newGame('medium')" class="btn btn-success">start new (medium) game</button>
+				<button ng-hide="ctrl.game.isRunning" ng-click="ctrl.newGame('hard')" class="btn btn-success">start new (hard) game</button>
+				<button ng-show="ctrl.game.isRunning" ng-click="ctrl.newGame(ctrl.difficulty)" class="btn btn-warning">Restart Game</button>
 				<span ng-hide="ctrl.game.isRunning" class="h2">Time: {{ctrl.game.duration}} seconds</span>
 			</div>
 

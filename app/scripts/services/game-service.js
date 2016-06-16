@@ -3,7 +3,7 @@
 		.module('myApp')
 		.service('GameService', GameService)
 
-	function GameService($interval) {
+	function GameService() {
 
 		let vm = this
 		let game = {}
@@ -11,7 +11,7 @@
 			isRunning: false,
 			hasWon: false,
 			hasLost: false,
-			difficulty: false,
+			difficulty: 0,
 			started: Date.now(),
 			finished: Date.now(),
 			grid: [],
@@ -72,7 +72,7 @@
 				revealAll()
 				game.isRunning = false
 				game.finished = Date.now()
-				game.duration = Math.round((game.finished - game.started)/1000)
+				game.duration = Math.round((game.finished - game.started) / 1000)
 			}
 			if (game.isRunning) {
 				let tally = 0
@@ -84,12 +84,12 @@
 					})
 				})
 				game.flags = flags
-				if (tally === game.difficulty * 9 && flags === tally) {
+				if (tally === game.difficulty * 1.5 && flags === tally) {
 					revealAll()
 					game.hasWon = true
 					game.isRunning = false
 					game.finished = Date.now()
-					game.duration = Math.round((game.finished - game.started)/1000)
+					game.duration = Math.round((game.finished - game.started) / 1000)
 				}
 			}
 		}
@@ -103,17 +103,23 @@
 		}
 
 		function getGame(difficulty) {
-			if (difficulty > 2 || difficulty < 0) difficulty = 0
-			difficulty += 1
+			switch (difficulty) {
+			case 'hard':
+				difficulty = 0.5
+				break
+			case 'medium':
+				difficulty = 0.25
+				break
+			default:
+				difficulty = 0
+				break
+			}
 			game = Object.assign({}, gameBlank)
-			game.grid = createGrid(difficulty * 10)
-			placeMines(game.grid, difficulty * 9)
+			game.difficulty = Math.floor((difficulty + 1) * 10)
+			game.grid = createGrid(game.difficulty)
+			placeMines(game.grid, game.difficulty * 1.5)
 			calcMines(game.grid)
 			game.isRunning = true
-			game.hasWon = false
-			game.hasLost = false
-			game.started = Date.now()
-			game.difficulty = difficulty
 			return game
 		}
 
