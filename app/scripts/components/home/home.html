@@ -1,35 +1,41 @@
 <div class="container-fluid text-center">
-	<h1>MineSweeper!</h1>
-	<div class="panel panel-default">
-		<div class="panel-body noselect">
+	<div class="panel-body noselect">
 
-			<h1 ng-show="ctrl.game.hasWon">YOU WIN</h1>
-			<h1 ng-show="ctrl.game.hasLost">YOU LOSE</h1>
-			<h1 ng-show="ctrl.game.isRunning">Minesweeper</h1>
-			<div class="container-fluid">
-				<button ng-click="ctrl.newGame('easy')" class="btn btn-success">New Easy Game</button>
-				<button ng-click="ctrl.newGame('medium')" class="btn btn-success">New Medium Game</button>
-				<button ng-click="ctrl.newGame('hard')" class="btn btn-success">New Hard Game</button>
-			</div>
-			<div class="container-fluid">
-				<span class="h2">{{ctrl.game.flags || 0}}/{{ctrl.game.difficulty*1 | number:0}}</span>
-				<span class="h2">Time: {{ctrl.game.duration || 0}} seconds</span>
-			</div>
-
-
-			<div class="grid" oncontextmenu="return false">
-				<div class="clearfix" ng-repeat="row in ctrl.game.grid track by $index">
-					<div class="cell" ng-mousedown="ctrl.handleClick($event, cell)" ng-class="{'hasmine': (cell.hasMine && ctrl.game.hasLost), 'revealed': cell.isRevealed, 'hasflag': cell.hasFlag}" ng-repeat="cell in row track by $index">{{cell.touching}}</div>
-				</div>
-			</div>
-
-			<div class="panel-body">
-				<span class="h2">Leaderboard</span>
-				<ol>
-					<li ng-repeat="score in ctrl.scores track by $index">{{score.time}}: {{score.difficulty}}</li>
-				</ol>
-			</div>
-
+		<h1 ng-show="ctrl.game.hasWon">YOU WIN</h1>
+		<h1 ng-show="ctrl.game.hasLost">YOU LOSE</h1>
+		<h1 ng-show="ctrl.game.isRunning">Minesweeper</h1>
+		<div class="container-fluid">
+			<button ng-click="ctrl.newGame('easy')" class="btn btn-success">New Easy Game</button>
+			<button ng-click="ctrl.newGame('medium')" class="btn btn-success">New Medium Game</button>
+			<button ng-click="ctrl.newGame('hard')" class="btn btn-success">New Hard Game</button>
 		</div>
+		<div class="container-fluid">
+			<span class="h2">{{ctrl.game.flags || 0}}/{{ctrl.game.difficulty*1 | number:0}}</span>
+			<span class="h2">Time: {{ctrl.game.duration || 0}} seconds</span>
+		</div>
+
+
+		<div class="grid" oncontextmenu="return false">
+			<div class="clearfix" ng-repeat="row in ctrl.game.grid track by $index">
+				<div class="cell" ng-mousedown="ctrl.handleClick($event, cell)" ng-class="{'hasmine': (cell.hasMine && ctrl.game.hasLost), 'revealed': cell.isRevealed, 'hasflag': cell.hasFlag}" ng-repeat="cell in row track by $index">{{cell.touching}}</div>
+			</div>
+		</div>
+
+		<div class="panel-body">
+			<span class="h2">Leaderboard</span>
+			<table class="table table-hover">
+				<tr>
+					<th>Player</th>
+					<th>Time</th>
+					<th>Difficulty</th>
+				</tr>
+				<tr ng-repeat="score in ctrl.scores track by $index">
+					<td>{{score.player}}</td>
+					<td>{{score.time}}</td>
+					<td>{{score.difficulty}}</td>
+				</tr>
+			</table>
+		</div>
+
 	</div>
 </div>

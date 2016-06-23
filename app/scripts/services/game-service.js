@@ -113,7 +113,8 @@
 					}
 					Leaderboard.addScore({
 						difficulty: game.difficulty,
-						time: game.duration
+						time: game.duration,
+						player: 'You'
 					})
 				}
 			}

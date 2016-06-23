@@ -7,17 +7,23 @@
 
 		// vars
 		let vm = this
-		let scores = [{time: 0, difficulty: 'insane'},{time: 100, difficulty: 'easy'},{time: 50, difficulty: 'whatever'}]
+		let scores = [{player: 'Computer', time: 180, difficulty: 'Hard'},{player: 'Computer', time: 60, difficulty: 'Easy'},{player: 'Computer', time: 120, difficulty: 'Medium'}]
 		vm.getScores = getScores
 		vm.addScore = addScore
 
 		// functions
 		function getScores() {
-			return scores.sort((a,b)=>a.time-b.time)
+			sortScores()
+			return scores
+		}
+
+		function sortScores() {
+			scores.sort((a,b)=>a.time-b.time)
 		}
 
 		function addScore(score) {
 			scores.push(score)
+			sortScores()
 		}
 
 	}
