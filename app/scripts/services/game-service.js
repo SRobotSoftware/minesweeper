@@ -3,7 +3,7 @@
 		.module('myApp')
 		.service('GameService', GameService)
 
-	function GameService() {
+	function GameService($interval, Leaderboard) {
 
 		let vm = this
 		let game = {}
@@ -12,8 +12,8 @@
 			hasWon: false,
 			hasLost: false,
 			difficulty: 0,
-			started: Date.now(),
-			finished: Date.now(),
+			started: 0,
+			finished: 0,
 			grid: [],
 			flags: 0,
 			duration: null
@@ -21,6 +21,10 @@
 		vm.getGame = getGame
 		vm.sweep = sweep
 		vm.flag = flag
+
+		function updateTime() {
+			game.duration = parseInt((Date.now() - game.started) / 1000)
+		}
 
 		function sweep(cell) {
 			if (!game.isRunning || cell.hasFlag) return
@@ -68,7 +72,12 @@
 		}
 
 		function checkWin() {
+			if (!game.started) {
+				game.started = Date.now()
+				game.clock = $interval(updateTime, 1000)
+			}
 			if (game.hasLost) {
+				$interval.cancel(game.clock)
 				revealAll()
 				game.isRunning = false
 				game.finished = Date.now()
@@ -84,12 +93,28 @@
 					})
 				})
 				game.flags = flags
-				if (tally === game.difficulty * 1.5 && flags === tally) {
+				if (tally === game.difficulty * 1 && flags === tally) {
 					revealAll()
 					game.hasWon = true
 					game.isRunning = false
 					game.finished = Date.now()
+					$interval.cancel(game.clock)
 					game.duration = Math.round((game.finished - game.started) / 1000)
+					switch (game.difficulty) {
+						case 10:
+							game.difficulty = 'Easy'
+							break;
+						case 12:
+							game.difficulty = 'Medium'
+							break;
+						case 15:
+							game.difficulty = 'Hard'
+							break;
+					}
+					Leaderboard.addScore({
+						difficulty: game.difficulty,
+						time: game.duration
+					})
 				}
 			}
 		}
@@ -103,6 +128,7 @@
 		}
 
 		function getGame(difficulty) {
+			if (game.clock) $interval.cancel(game.clock)
 			switch (difficulty) {
 				case 'hard':
 					difficulty = 0.5
@@ -117,7 +143,7 @@
 			game = Object.assign({}, gameBlank)
 			game.difficulty = Math.floor((difficulty + 1) * 10)
 			game.grid = createGrid(game.difficulty)
-			placeMines(game.grid, game.difficulty * 1.5)
+			placeMines(game.grid, game.difficulty * 1)
 			calcMines(game.grid)
 			game.isRunning = true
 			return game

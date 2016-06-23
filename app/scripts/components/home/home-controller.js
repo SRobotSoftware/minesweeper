@@ -3,7 +3,7 @@
 		.module('myApp')
 		.controller('homeCtrl', homeCtrl)
 
-	function homeCtrl(GameService) {
+	function homeCtrl(GameService, Leaderboard) {
 
 		// vars
 		let vm = this
@@ -11,6 +11,7 @@
 		vm.game = GameService.getGame(0)
 		vm.sweep = GameService.sweep
 		vm.handleClick = handleClick
+		vm.scores = Leaderboard.getScores()
 
 		// Functions
 

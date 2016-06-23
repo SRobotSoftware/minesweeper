@@ -24,6 +24,8 @@
     },
     "globals": {
         "angular": false,
-        "chance": false
-    }
+        "chance": false,
+        "require": false
+    },
+    "no-console": 0
 }

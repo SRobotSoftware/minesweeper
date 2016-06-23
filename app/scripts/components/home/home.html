@@ -12,8 +12,8 @@
 				<button ng-click="ctrl.newGame('hard')" class="btn btn-success">New Hard Game</button>
 			</div>
 			<div class="container-fluid">
-				<span class="h2">{{ctrl.game.flags || 0}}/{{ctrl.game.difficulty*1.5 | number:0}}</span>
-				<span ng-hide="ctrl.game.isRunning" class="h2">Time: {{ctrl.game.duration}} seconds</span>
+				<span class="h2">{{ctrl.game.flags || 0}}/{{ctrl.game.difficulty*1 | number:0}}</span>
+				<span class="h2">Time: {{ctrl.game.duration || 0}} seconds</span>
 			</div>
 
 
@@ -21,6 +21,13 @@
 				<div class="clearfix" ng-repeat="row in ctrl.game.grid track by $index">
 					<div class="cell" ng-mousedown="ctrl.handleClick($event, cell)" ng-class="{'hasmine': (cell.hasMine && ctrl.game.hasLost), 'revealed': cell.isRevealed, 'hasflag': cell.hasFlag}" ng-repeat="cell in row track by $index">{{cell.touching}}</div>
 				</div>
+			</div>
+
+			<div class="panel-body">
+				<span class="h2">Leaderboard</span>
+				<ol>
+					<li ng-repeat="score in ctrl.scores track by $index">{{score.time}}: {{score.difficulty}}</li>
+				</ol>
 			</div>
 
 		</div>
